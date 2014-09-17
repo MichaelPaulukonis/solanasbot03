@@ -1,7 +1,9 @@
-# MINIFESTER_TESTER (MINIFESTER TESTER)
+# SCUM Manifesto Generator (TWEETR)
 
-The best project ever.
 
 ## License
-Copyright (c) 2014 Michael Paulukonis  
+Copyright (c) 2014 Michael Paulukonis
 Licensed under the MIT license.
+=======
+solanasbot03
+============
