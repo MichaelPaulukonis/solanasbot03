@@ -4,7 +4,8 @@ var inflection = require('inflection');
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
 var wordfilter = require('wordfilter');
-var wordnikKey = require('./permissions.js').key;
+// var wordnikKey = require('./permissions.js').key;
+var wordnikKey = process.env.WORDNIK_KEY;
 var request = require('request');
 
 var randomWords = {
