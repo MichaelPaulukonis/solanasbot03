@@ -201,8 +201,9 @@ setInterval(function () {
     catch (e) {
         console.log(e);
     }
-// }, 1000 * 30 * 60);
-}, 1000 * 10);
+// TODO: get this into a heroku variable...
+}, 1000 * 15 * 60);
+// }, 1000 * 10);
 
 // Tweet once on initialization
 tweet();
