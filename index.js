@@ -201,8 +201,8 @@ setInterval(function () {
     catch (e) {
         console.log(e);
     }
-}, 1000 * 30 * 60);
-// }, 1000 * 3);
+// }, 1000 * 30 * 60);
+}, 1000 * 10);
 
 // Tweet once on initialization
 tweet();
