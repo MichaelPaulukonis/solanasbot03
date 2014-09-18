@@ -2,9 +2,8 @@ var _ = require('underscore');
 _.mixin( require('underscore.deferred') );
 var inflection = require('inflection');
 var Twit = require('twit');
-var T = new Twit(require('./config.js'));
+// var T = new Twit(require('./config.js'));
 var wordfilter = require('wordfilter');
-// var wordnikKey = require('./permissions.js').key;
 var wordnikKey = process.env.WORDNIK_KEY;
 var request = require('request');
 
@@ -19,6 +18,7 @@ var randomWords = {
 };
 
 var nounCache = [];
+var pluralNounCache = [];
 
 Array.prototype.pick = function() {
     return this[Math.floor(Math.random()*this.length)];
@@ -40,7 +40,7 @@ var templates = [
     "SCUM: What’s in your <%= noun() %>?",
     "SCUM: the <%= noun() %> of <%= noun1() %> <%= nounPlural() %>",
     "SCUM: not just for <%= nounPlural() %>!",
-    "SCUM will kill all <%= noun() %> who are not in the <%= capitalNoun1() %>’s Auxiliary of SCUM.",
+    "SCUM will kill all <%= nounPlural() %> who are not in the <%= capitalize(nounPlural1()) %>’s Auxiliary of SCUM.",
     "SCUM will <%= adverb() %>, <%= adverb() %>, stalk its <%= noun() %> and quietly move in for the kill."
 ];
 
@@ -58,7 +58,8 @@ var wordFinders = function() {
     var capitalNoun1 = function() { return capitalize(nounCache[0]); };
     var noun = function() { var n = randomWords.noun.pick().word; nounCache.push(n); return n; };
     var noun1 = function() { return nounCache[0]; };
-    var nounPlural = function() { return randomWords.nounplural.pick().word; };
+    var nounPlural = function() { var np = randomWords.nounplural.pick().word; pluralNounCache.push(np); return np; };
+    var nounPlural1 = function() { return pluralNounCache[0]; };
     var verb = function() { return randomWords.verb.pick().word; };
     var verbTransitive = function() { return randomWords.verb.pick().word; };
 
@@ -67,9 +68,11 @@ var wordFinders = function() {
         adverb: adverb,
         capitalNoun1: capitalNoun1,
         capitalNoun: capitalNoun,
+        capitalize: capitalize,
         noun1: noun1,
         noun: noun,
         nounPlural: nounPlural,
+        nounPlural1: nounPlural1,
         verb: verb,
         verbTransitive: verbTransitive
     };
@@ -81,6 +84,7 @@ function getSentence() {
 
     // console.log(randomWords);
     nounCache = [];
+    pluralNounCache = [];
 
     var tmpl = templates.pick();
     //console.log(tmpl);
@@ -197,7 +201,7 @@ setInterval(function () {
     catch (e) {
         console.log(e);
     }
-}, 1000 * 60 * 60);
+}, 1000 * 30 * 60);
 // }, 1000 * 3);
 
 // Tweet once on initialization
