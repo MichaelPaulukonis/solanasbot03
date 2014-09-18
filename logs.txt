@@ -1,0 +1,101 @@
+2014-09-18T02:31:26.185108+00:00 heroku[worker.1]: State changed from starting to up
+2014-09-18T02:31:27.754524+00:00 app[worker.1]: reply: { created_at: 'Thu Sep 18 02:31:27 +0000 2014',
+2014-09-18T02:31:27.754531+00:00 app[worker.1]:   id: 512428660121698300,
+2014-09-18T02:31:27.754532+00:00 app[worker.1]:   id_str: '512428660121698304',
+2014-09-18T02:31:27.754537+00:00 app[worker.1]:   truncated: false,
+2014-09-18T02:31:27.754534+00:00 app[worker.1]:   text: 'SCUM will facetiously, miraculously, stalk its aneurysm and quietly move in for the kill.',
+2014-09-18T02:31:27.754536+00:00 app[worker.1]:   source: '<a href="http://www.xradiograph.com/WordSalad/TwitterBotProject" rel="nofollow">SCUM MINIFESTER</a>',
+2014-09-18T02:31:27.754538+00:00 app[worker.1]:   in_reply_to_status_id: null,
+2014-09-18T02:31:27.754540+00:00 app[worker.1]:   in_reply_to_status_id_str: null,
+2014-09-18T02:31:27.754541+00:00 app[worker.1]:   in_reply_to_user_id: null,
+2014-09-18T02:31:27.754542+00:00 app[worker.1]:   in_reply_to_user_id_str: null,
+2014-09-18T02:31:27.754544+00:00 app[worker.1]:   in_reply_to_screen_name: null,
+2014-09-18T02:31:27.754545+00:00 app[worker.1]:   user: 
+2014-09-18T02:31:27.754546+00:00 app[worker.1]:    { id: 2802836438,
+2014-09-18T02:31:27.754547+00:00 app[worker.1]:      id_str: '2802836438',
+2014-09-18T02:31:27.754550+00:00 app[worker.1]:      name: 'ValerieSolanasBot03',
+2014-09-18T02:31:27.754551+00:00 app[worker.1]:      screen_name: 'SolanasBot03',
+2014-09-18T02:31:27.754552+00:00 app[worker.1]:      location: '',
+2014-09-18T02:31:27.754553+00:00 app[worker.1]:      description: 'SCUM ARE LEGION: EXPECT US',
+2014-09-18T02:31:27.754555+00:00 app[worker.1]:      url: 'http://t.co/zcr3iOSHlp',
+2014-09-18T02:31:27.754556+00:00 app[worker.1]:      entities: { url: [Object], description: [Object] },
+2014-09-18T02:31:27.754557+00:00 app[worker.1]:      protected: false,
+2014-09-18T02:31:27.754558+00:00 app[worker.1]:      followers_count: 2,
+2014-09-18T02:31:27.754560+00:00 app[worker.1]:      friends_count: 0,
+2014-09-18T02:31:27.754561+00:00 app[worker.1]:      listed_count: 0,
+2014-09-18T02:31:27.754563+00:00 app[worker.1]:      favourites_count: 0,
+2014-09-18T02:31:27.754562+00:00 app[worker.1]:      created_at: 'Thu Sep 11 02:10:43 +0000 2014',
+2014-09-18T02:31:27.754564+00:00 app[worker.1]:      utc_offset: null,
+2014-09-18T02:31:27.754565+00:00 app[worker.1]:      time_zone: null,
+2014-09-18T02:31:27.754567+00:00 app[worker.1]:      geo_enabled: false,
+2014-09-18T02:31:27.754570+00:00 app[worker.1]:      lang: 'en',
+2014-09-18T02:31:27.754569+00:00 app[worker.1]:      statuses_count: 6,
+2014-09-18T02:31:27.754568+00:00 app[worker.1]:      verified: false,
+2014-09-18T02:31:27.754572+00:00 app[worker.1]:      contributors_enabled: false,
+2014-09-18T02:31:27.754573+00:00 app[worker.1]:      is_translator: false,
+2014-09-18T02:31:27.754575+00:00 app[worker.1]:      profile_background_color: 'C0DEED',
+2014-09-18T02:31:27.754577+00:00 app[worker.1]:      profile_background_image_url: 'http://abs.twimg.com/images/themes/theme1/bg.png',
+2014-09-18T02:31:27.754578+00:00 app[worker.1]:      profile_background_image_url_https: 'https://abs.twimg.com/images/themes/theme1/bg.png',
+2014-09-18T02:31:27.754579+00:00 app[worker.1]:      profile_background_tile: false,
+2014-09-18T02:31:27.754580+00:00 app[worker.1]:      profile_image_url: 'http://pbs.twimg.com/profile_images/509888854325612544/EQlChiAB_normal.jpeg',
+2014-09-18T02:31:27.754582+00:00 app[worker.1]:      profile_image_url_https: 'https://pbs.twimg.com/profile_images/509888854325612544/EQlChiAB_normal.jpeg',
+2014-09-18T02:31:27.754583+00:00 app[worker.1]:      profile_link_color: '0084B4',
+2014-09-18T02:31:27.754574+00:00 app[worker.1]:      is_translation_enabled: false,
+2014-09-18T02:31:27.754606+00:00 app[worker.1]:      profile_use_background_image: true,
+2014-09-18T02:31:27.754607+00:00 app[worker.1]:      default_profile: true,
+2014-09-18T02:31:27.754609+00:00 app[worker.1]:      following: false,
+2014-09-18T02:31:27.754608+00:00 app[worker.1]:      default_profile_image: false,
+2014-09-18T02:31:27.754610+00:00 app[worker.1]:      follow_request_sent: false,
+2014-09-18T02:31:27.754612+00:00 app[worker.1]:   geo: null,
+2014-09-18T02:31:27.754585+00:00 app[worker.1]:      profile_sidebar_fill_color: 'DDEEF6',
+2014-09-18T02:31:27.754584+00:00 app[worker.1]:      profile_sidebar_border_color: 'C0DEED',
+2014-09-18T02:31:27.754615+00:00 app[worker.1]:   place: null,
+2014-09-18T02:31:27.754616+00:00 app[worker.1]:   contributors: null,
+2014-09-18T02:31:27.754621+00:00 app[worker.1]:   favorited: false,
+2014-09-18T02:31:27.754586+00:00 app[worker.1]:      profile_text_color: '333333',
+2014-09-18T02:31:27.754611+00:00 app[worker.1]:      notifications: false },
+2014-09-18T02:31:27.754614+00:00 app[worker.1]:   coordinates: null,
+2014-09-18T02:31:27.754623+00:00 app[worker.1]:   lang: 'en' }
+2014-09-18T02:31:27.754617+00:00 app[worker.1]:   retweet_count: 0,
+2014-09-18T02:31:27.754618+00:00 app[worker.1]:   favorite_count: 0,
+2014-09-18T02:31:27.754620+00:00 app[worker.1]:   entities: { hashtags: [], symbols: [], urls: [], user_mentions: [] },
+2014-09-18T02:31:27.754622+00:00 app[worker.1]:   retweeted: false,
+2014-09-18T02:31:35.323389+00:00 heroku[router]: at=error code=H14 desc="No web processes running" method=GET path="/" host=intense-retreat-5692.herokuapp.com request_id=759e0552-77e9-4942-a24d-2404bcad8bd8 fwd="50.138.200.242" dyno= connect= service= status=503 bytes=
+2014-09-18T02:31:35.914305+00:00 heroku[router]: at=error code=H14 desc="No web processes running" method=GET path="/favicon.ico" host=intense-retreat-5692.herokuapp.com request_id=398e4aa6-bb3e-4216-ac2d-0f7c0c604226 fwd="50.138.200.242" dyno= connect= service= status=503 bytes=
+2014-09-18T02:31:35.918611+00:00 heroku[router]: at=error code=H14 desc="No web processes running" method=GET path="/favicon.ico" host=intense-retreat-5692.herokuapp.com request_id=cc9d877e-e549-419e-becf-f7e345cc7c54 fwd="50.138.200.242" dyno= connect= service= status=503 bytes=
+2014-09-18T02:31:35.955906+00:00 heroku[router]: at=error code=H14 desc="No web processes running" method=GET path="/favicon.ico" host=intense-retreat-5692.herokuapp.com request_id=ee05fd6f-94d5-47b6-9049-6e5f18ab8a07 fwd="50.138.200.242" dyno= connect= service= status=503 bytes=
+2014-09-18T02:42:32+00:00 heroku[slug-compiler]: Slug compilation started
+2014-09-18T02:42:38+00:00 heroku[slug-compiler]: Slug compilation finished
+2014-09-18T02:42:38.332459+00:00 heroku[api]: Deploy e1ad07f by xraysmalevich@gmail.com
+2014-09-18T02:42:38.332522+00:00 heroku[api]: Release v13 created by xraysmalevich@gmail.com
+2014-09-18T02:42:38.440446+00:00 heroku[worker.1]: State changed from up to starting
+2014-09-18T02:42:41.282509+00:00 heroku[worker.1]: Stopping all processes with SIGTERM
+2014-09-18T02:42:42.542369+00:00 heroku[worker.1]: Starting process with command `node index.js`
+2014-09-18T02:42:42.794296+00:00 heroku[worker.1]: Process exited with status 143
+2014-09-18T02:42:43.312962+00:00 heroku[worker.1]: State changed from starting to up
+2014-09-18T02:42:45.930870+00:00 app[worker.1]: SCUM will destroy all useless and harmful objects -- States-General, Cherokees, illuminati  etc.
+2014-09-18T02:42:53.890319+00:00 heroku[router]: at=error code=H14 desc="No web processes running" method=GET path="/" host=intense-retreat-5692.herokuapp.com request_id=dcdfa8bb-230d-4515-8e20-d1e05c51a59f fwd="54.87.128.104" dyno= connect= service= status=503 bytes=
+2014-09-18T02:42:55.784057+00:00 app[worker.1]: SCUM will destroy all useless and harmful objects -- Tenebrae, delenda, States-General  etc.
+2014-09-18T02:43:05.781163+00:00 app[worker.1]: SCUM is out to destroy the gynecology, not attain certain rights within it.
+2014-09-18T02:43:25.812139+00:00 app[worker.1]: SCUM will kill all Cherokees who are not in the Cherokees’s Auxiliary of SCUM.
+2014-09-18T02:43:35.813288+00:00 app[worker.1]: SCUM: What’s in your collusion?
+2014-09-18T02:43:45.829056+00:00 app[worker.1]: SCUM: You toggle. We’ll take care of the delenda.
+2014-09-18T02:43:55.846553+00:00 app[worker.1]: SCUM will kill all illuminati who are not in the Illuminati’s Auxiliary of SCUM.
+2014-09-18T02:44:05.886567+00:00 app[worker.1]: SCUM: What’s in your taffrail?
+2014-09-18T02:44:15.866550+00:00 app[worker.1]: SCUM is against doughty, teary-eyed, Tenebrae, with no clear objective in mind, and in which many of your own kind are picked off.
+2014-09-18T02:44:25.933426+00:00 app[worker.1]: SCUM will disapprovingly, sedulously, stalk its flannels and quietly move in for the kill.
+2014-09-18T02:44:35.916650+00:00 app[worker.1]: SCUM: Not Your Typical Burger
+2014-09-18T02:44:45.912649+00:00 app[worker.1]: SCUM is out to destroy the dachshund, not attain certain rights within it.
+2014-09-18T02:44:55.913051+00:00 app[worker.1]: SCUM is out to destroy the boater, not attain certain rights within it.
+2014-09-18T02:45:16.003005+00:00 app[worker.1]: SCUM is against spinning, breakneck, Cherokees, with no clear objective in mind, and in which many of your own kind are picked off.
+2014-09-18T02:45:25.996424+00:00 app[worker.1]: SCUM will always be grateful, grateful, loamy (although SCUM Smalls will always be known to be such).
+2014-09-18T02:45:36.117062+00:00 app[worker.1]: SCUM: What’s in your pilots?
+2014-09-18T02:45:46.140703+00:00 app[worker.1]: SCUM: What’s in your spores?
+2014-09-18T02:45:56.183169+00:00 app[worker.1]: SCUM will always be underworld, vocal, bridged (although SCUM Smalls will always be known to be such).
+2014-09-18T02:46:06.093319+00:00 app[worker.1]: SCUM will kill all Smalls who are not in the Smalls’s Auxiliary of SCUM.
+2014-09-18T02:46:16.134531+00:00 app[worker.1]: SCUM will kill all delenda who are not in the Delenda’s Auxiliary of SCUM.
+2014-09-18T02:46:26.084398+00:00 app[worker.1]: SCUM is against lesser, throwback, illuminati, with no clear objective in mind, and in which many of your own kind are picked off.
+2014-09-18T02:46:36.087909+00:00 app[worker.1]: SCUM: Not Your Typical Animus
+2014-09-18T02:46:46.108913+00:00 app[worker.1]: SCUM is out to destroy the inflation, not attain certain rights within it.
+2014-09-18T02:46:56.140298+00:00 app[worker.1]: SCUM is against outboard, helmed, contraries, with no clear objective in mind, and in which many of your own kind are picked off.
+2014-09-18T02:47:06.173396+00:00 app[worker.1]: SCUM: the grandfathers of grandfathers States-General

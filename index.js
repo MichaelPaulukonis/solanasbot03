@@ -2,7 +2,7 @@ var _ = require('underscore');
 _.mixin( require('underscore.deferred') );
 var inflection = require('inflection');
 var Twit = require('twit');
-// var T = new Twit(require('./config.js'));
+var T = new Twit(require('./config.js'));
 var wordfilter = require('wordfilter');
 var wordnikKey = process.env.WORDNIK_KEY;
 var request = require('request');
