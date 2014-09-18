@@ -122,8 +122,8 @@ function generate() {
 }
 
 function getRandomWordsPromise(pos,minCount) {
-    minCount = minCount || 1000; // the lower the number, the less common
-    var url = "http://api.wordnik.com/v4/words.json/randomWords?includePartOfSpeech="+pos+"&excludePartOfSpeech=proper-noun-plural,proper-noun-posessive,suffix,family-name,idiom,affix&minCorpusCount="+minCount+"&hasDictionaryDef=true&limit=10&api_key=" + wordnikKey;
+    minCount = minCount || 3000; // the lower the number, the less common
+    var url = "http://api.wordnik.com/v4/words.json/randomWords?includePartOfSpeech="+pos+"&excludePartOfSpeech=proper-noun-plural,proper-noun-posessive,suffix,family-name,idiom,affix&minCorpusCount="+minCount+"&hasDictionaryDef=true&limit=20&api_key=" + wordnikKey;
     var rwDeferred = _.Deferred();
     var randomWordNounPromise = rwDeferred.promise();
     request({
