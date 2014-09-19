@@ -35,7 +35,7 @@ Array.prototype.pickRemove = function() {
 var templates = [
     "SCUM: You <%= verbTransitive() %>. We’ll take care of the <%= plural(noun()) %>.",
     "SCUM is against <%= adjective() %>, <%= adjective() %>, <%= plural(noun()) %>, with no clear objective in mind, and in which many of your own kind are picked off.",
-    "SCUM is out to destroy the <%= noun() %>, not attain certain <%= plural(noun()) within it.",
+    "SCUM is out to destroy the <%= noun() %>, not attain certain <%= plural(noun()) %> within it.",
     "SCUM will always be <%= adjective() %>, <%= adjective() %>, <%= adjective() %> (although SCUM <%= plural(noun()) %> will always be known to be such).",
     "SCUM is against the entire <%= noun() %>, the very idea of <%= noun() %> and <%= noun() %>.",
     "SCUM will destroy all useless and harmful objects -- <%= plural(noun()) %>, <%= plural(noun()) %>, <%= plural(noun()) %>  etc.",
