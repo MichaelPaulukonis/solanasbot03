@@ -2,23 +2,26 @@ var _ = require('underscore');
 _.mixin( require('underscore.deferred') );
 var inflection = require('inflection');
 var Twit = require('twit');
-var T = new Twit(require('./config.js'));
+var config = require('./config.js');
+var T = new Twit(config);
 var wordfilter = require('wordfilter');
 var wordnikKey = process.env.WORDNIK_KEY;
 var request = require('request');
+var nlp = require('nlp_compromise');
 
 var randomWords = {
     noun: [],
     adjective: [],
     verb: [],
-    pnoun: [],
-    nounplural: [],
+    pronoun: [],
+    propernoun: [],
     adverb: [],
     inter: []
 };
 
 var nounCache = [];
 var pluralNounCache = [];
+var pronounCache = [];
 
 Array.prototype.pick = function() {
     return this[Math.floor(Math.random()*this.length)];
@@ -30,21 +33,24 @@ Array.prototype.pickRemove = function() {
 };
 
 var templates = [
-    "SCUM: You <%= verbTransitive() %>. We’ll take care of the <%= nounPlural() %>.",
-    "SCUM is against <%= adjective() %>, <%= adjective() %>, <%= nounPlural() %>, with no clear objective in mind, and in which many of your own kind are picked off.",
-    "SCUM is out to destroy the <%= noun() %>, not attain certain rights within it.",
-    "SCUM will always be <%= adjective() %>, <%= adjective() %>, <%= adjective() %> (although SCUM <%= nounPlural() %> will always be known to be such).",
-    "SCUM is against the entire system, the very idea of <%= noun() %> and <%= noun() %>.",
-    "SCUM will destroy all useless and harmful objects -- <%= nounPlural() %>, <%= nounPlural() %>, <%= nounPlural() %>  etc.",
-    "SCUM: Not Your Typical <%= capitalNoun() %>",
+    "SCUM: You <%= verbTransitive() %>. We’ll take care of the <%= plural(noun()) %>.",
+    "SCUM is against <%= adjective() %>, <%= adjective() %>, <%= plural(noun()) %>, with no clear objective in mind, and in which many of your own kind are picked off.",
+    "SCUM is out to destroy the <%= noun() %>, not attain certain <%= plural(noun()) within it.",
+    "SCUM will always be <%= adjective() %>, <%= adjective() %>, <%= adjective() %> (although SCUM <%= plural(noun()) %> will always be known to be such).",
+    "SCUM is against the entire <%= noun() %>, the very idea of <%= noun() %> and <%= noun() %>.",
+    "SCUM will destroy all useless and harmful objects -- <%= plural(noun()) %>, <%= plural(noun()) %>, <%= plural(noun()) %>  etc.",
+    "SCUM: Not Your Typical <%= capitalize(noun()) %>.",
     "SCUM: What’s in your <%= noun() %>?",
-    "SCUM: the <%= noun() %> of <%= noun1() %> <%= nounPlural() %>",
-    "SCUM: not just for <%= nounPlural() %>!",
-    "SCUM will kill all <%= nounPlural() %> who are not in the <%= capitalize(nounPlural1()) %>’s Auxiliary of SCUM.",
-    "SCUM will <%= adverb() %>, <%= adverb() %>, stalk its <%= noun() %> and quietly move in for the kill."
+    "SCUM: the <%= noun() %> of <%= noun1() %> <%= plural(noun()) %>.",
+    "SCUM: not just for <%= plural(noun()) %>!",
+    "SCUM will kill all <%= plural(noun()) %> who are not in the <%= capitalize(plural(noun1())) %>’s Auxiliary of SCUM.",
+    "SCUM will <%= adverb() %>, <%= adverb() %>, stalk its <%= noun() %> and quietly move in for the kill.",
+    "SCUM: Not just for <%= plural(noun()) %>.",
+    "SCUM will not <%= verb() %>, <%= verb() %>, <%= verb() %> or <%= verb() %> to attempt to achieve its ends.",
+    "SCUM: Leave the <%= noun() %> to us.",
+    "SCUM: <%= capitalize(noun()) %> for <%= pronoun() %>. <%= capitalize(pronoun1()) %> for <%= noun1() %>."
+
 ];
-
-
 
 var wordFinders = function() {
 
@@ -58,8 +64,9 @@ var wordFinders = function() {
     var capitalNoun1 = function() { return capitalize(nounCache[0]); };
     var noun = function() { var n = randomWords.noun.pick().word; nounCache.push(n); return n; };
     var noun1 = function() { return nounCache[0]; };
-    var nounPlural = function() { var np = randomWords.nounplural.pick().word; pluralNounCache.push(np); return np; };
-    var nounPlural1 = function() { return pluralNounCache[0]; };
+    var plural = function(noun) { return nlp.noun(noun).pluralize(); };
+    var pronoun = function() { var pn = randomWords.pronoun.pick().word; pronounCache.push(pn); return pn; };
+    var pronoun1 = function() { return pronounCache[0]; };
     var verb = function() { return randomWords.verb.pick().word; };
     var verbTransitive = function() { return randomWords.verb.pick().word; };
 
@@ -71,8 +78,9 @@ var wordFinders = function() {
         capitalize: capitalize,
         noun1: noun1,
         noun: noun,
-        nounPlural: nounPlural,
-        nounPlural1: nounPlural1,
+        plural: plural,
+        pronoun: pronoun,
+        pronoun1: pronoun1,
         verb: verb,
         verbTransitive: verbTransitive
     };
@@ -84,14 +92,14 @@ function getSentence() {
 
     // console.log(randomWords);
     nounCache = [];
-    pluralNounCache = [];
+    pronounCache = [];
 
     var tmpl = templates.pick();
-    //console.log(tmpl);
+    // console.log(tmpl);
     var t = _.template(tmpl);
     var s = t(wordFinders);
 
-    //console.log(s);
+    // console.log(s);
 
     return s;
 
@@ -103,16 +111,16 @@ function generate() {
 
     var randomWordNounPromise = getRandomWordsPromise('noun');
     var randomWordAdjPromise = getRandomWordsPromise('adjective');
-    var randomWordNounPluralPromise = getRandomWordsPromise('noun-plural');
     var randomWordAdvPromise = getRandomWordsPromise('adverb');
     var randomWordVerbPromise = getRandomWordsPromise('verb-transitive');
+    var randomWordPronounPromise = getRandomWordsPromise('pronoun');
 
     _.when(
         randomWordNounPromise,
         randomWordAdjPromise,
-        randomWordNounPluralPromise,
         randomWordAdvPromise,
-        randomWordVerbPromise
+        randomWordVerbPromise,
+        randomWordPronounPromise
     ).done(function() {
         dfd.resolve(getSentence());
     });
@@ -123,7 +131,7 @@ function generate() {
 
 function getRandomWordsPromise(pos,minCount) {
     minCount = minCount || 3000; // the lower the number, the less common
-    var url = "http://api.wordnik.com/v4/words.json/randomWords?includePartOfSpeech="+pos+"&excludePartOfSpeech=proper-noun-plural,proper-noun-posessive,suffix,family-name,idiom,affix&minCorpusCount="+minCount+"&hasDictionaryDef=true&limit=20&api_key=" + wordnikKey;
+    var url = "http://api.wordnik.com/v4/words.json/randomWords?includePartOfSpeech="+pos+"&excludePartOfSpeech=proper-noun-plural,proper-noun-posessive,suffix,family-name,idiom,affix&minCorpusCount="+minCount+"&hasDictionaryDef=true&limit=20&api_key=" + config.wordnik_key;
     var rwDeferred = _.Deferred();
     var randomWordNounPromise = rwDeferred.promise();
     request({
@@ -158,10 +166,10 @@ function getRandomWordsPromise(pos,minCount) {
                 randomWords.verb = words;
             }
             else if (pos === "proper-noun") {
-                randomWords.pnoun = words;
+                randomWords.propernoun = words;
             }
-            else if (pos === "noun-plural") {
-                randomWords.nounplural = words;
+            else if (pos === "pronoun") {
+                randomWords.pronoun = words;
             }
             else if (pos === "interjection") {
                 randomWords.inter = words;
@@ -181,14 +189,16 @@ function tweet() {
         if (!wordfilter.blacklisted(myTweet)) {
             console.log(myTweet);
 
-            T.post('statuses/update', { status: myTweet }, function(err, reply) {
-                if (err) {
-                    console.log('error:', err);
-                }
-                else {
-                    console.log('reply:', reply);
-                }
-            });
+            if (config.tweet_on) {
+                T.post('statuses/update', { status: myTweet }, function(err, reply) {
+                    if (err) {
+                        console.log('error:', err);
+                    }
+                    else {
+                        console.log('reply:', reply);
+                    }
+                });
+            }
         }
     });
 }
@@ -202,8 +212,8 @@ setInterval(function () {
         console.log(e);
     }
 // TODO: get this into a heroku variable...
-}, 1000 * 15 * 60);
-// }, 1000 * 10);
+// }, 1000 * 15 * 60);
+}, 1000 * config.minutes * config.seconds);
 
 // Tweet once on initialization
 tweet();
