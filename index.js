@@ -1,6 +1,7 @@
 var _ = require('underscore');
 _.mixin( require('underscore.deferred') );
 var inflection = require('inflection');
+var article = require('./lib/indefinite');
 var Twit = require('twit');
 var config = require('./config.js');
 var T = new Twit(config);
@@ -48,8 +49,17 @@ var templates = [
     "SCUM: Not just for <%= plural(noun()) %>.",
     "SCUM will not <%= verb() %>, <%= verb() %>, <%= verb() %> or <%= verb() %> to attempt to achieve its ends.",
     "SCUM: Leave the <%= noun() %> to us.",
-    "SCUM: <%= capitalize(noun()) %> for <%= pronoun() %>. <%= capitalize(pronoun1()) %> for <%= noun1() %>."
-
+    "SCUM: <%= capitalize(noun()) %> for <%= pronoun() %>. <%= capitalize(pronoun1()) %> for <%= noun1() %>.",
+    "SCUM consists of <%= plural(noun()) %>; SCUM is not <%= a(noun()) %>, <%= a(noun()) %>.",
+    "SCUM: Together we make <%= a(adjective()) %> <%= noun() %>.",
+    "SCUM: one <%= noun() %> at a time.",
+    "SCUM: We are here to <%= verb() %> the <%= noun() %>.",
+    "SCUM: We're here, we're <%= adjective() %>, get used to it!",
+    "SCUM: By any <%= plural(noun()) %> necessary.",
+    "SCUM: <%= capitalize(verb()) %> <%= plural(noun())%>, not <%= plural(noun()) %>.",
+    "SCUM: <%= capital(verb()) %> the <%= noun() %>, eliminate the <%= adjective() %> <%= noun() %>, institute <%= adjective() %> <%= plural(noun()) %> and destroy the male sex.",
+    "Every man, deep down, knows he's <%= a(adjective()) %> <%= noun() %> of <%= noun() %>.",
+    "SCUM - always <%= adjective() %>, always <%= adjective() %> - will always aim to avoid <%= plural(noun()) %> and <%= plural(noun()) %>."
 ];
 
 var wordFinders = function() {
@@ -62,23 +72,29 @@ var wordFinders = function() {
     var adverb = function() { return randomWords.adverb.pick().word; };
     var capitalNoun = function() { var n = randomWords.noun.pick().word; nounCache.push(n); return capitalize(n); };
     var capitalNoun1 = function() { return capitalize(nounCache[0]); };
-    var noun = function() { var n = randomWords.noun.pick().word; nounCache.push(n); return n; };
+    var noun = function() { var n = randomWords.noun.pick().word; nounCache.push(n); return singular(n); };
     var noun1 = function() { return nounCache[0]; };
     var plural = function(noun) { return nlp.noun(noun).pluralize(); };
+    var singular = function(noun) { return inflection.singularize(noun); };
     var pronoun = function() { var pn = randomWords.pronoun.pick().word; pronounCache.push(pn); return pn; };
     var pronoun1 = function() { return pronounCache[0]; };
     var verb = function() { return randomWords.verb.pick().word; };
     var verbTransitive = function() { return randomWords.verb.pick().word; };
+    // var a = function() { var n = noun(); return article(n) + ' ' + n; };
+    var a = function(word) { return article(word) + ' ' + word; };
 
     return {
+	a: a,
         adjective: adjective,
         adverb: adverb,
         capitalNoun1: capitalNoun1,
         capitalNoun: capitalNoun,
+	capital: capitalize,
         capitalize: capitalize,
         noun1: noun1,
         noun: noun,
         plural: plural,
+	singular: singular,
         pronoun: pronoun,
         pronoun1: pronoun1,
         verb: verb,
