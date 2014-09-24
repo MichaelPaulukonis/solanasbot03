@@ -15,6 +15,7 @@ var sentence = function(randomWords) {
     var nounCache = [];
     var pluralNounCache = [];
     var pronounCache = [];
+    var adjCache = [];
 
     Array.prototype.pick = function() {
 	return this[Math.floor(Math.random()*this.length)];
@@ -64,11 +65,17 @@ var sentence = function(randomWords) {
 	"SCUM will keep on <%= gerund() %>, <%= gerund() %>, <%= gerund() %>-up, and <%= gerund() %> until the money-work system no longer exists.",
 	"Sex is the <%= noun() %> of the <%= plural(noun()) %>.",
 	"The male is, by his very nature, <%= a(noun()) %>, <%= a(adjective()) %> <%= noun() %> and, therefore, not <%= adverb() %> entitled to live.",
-	"To call a man <%= a(noun()) %> is to flatter him; he's <%= a(noun()) %>, a <%= gerund() %> <%= noun() %>.",
+	"To call a man <%= a(noun()) %> is to flatter him; he's <%= a(noun()) %>, <%= a(gerund()) %> <%= noun() %>.",
         "Women are improvable; men are not, although their <%= noun() %> is.",
         "His main means of attempting to prove it is screwing {<%= capital(adjective()) %> Man with <%= a(capital(adjective())) %> Dick tearing off <%= capital(adjective()) %> <%= capital(noun()) %>}.",
         "The mother gives milk; he gives <%= noun() %>.",
-        "Screwing, then, is a desperate compulsive, attempt to prove he’s not passive, not a woman; but he is passive and does want to be a woman.",
+        // "Screwing, then, is a desperate compulsive, attempt to prove he’s not passive, not a woman; but he is passive and does want to be a woman.",
+	// TODO: still not quite right. only getting the FIRST adjective, not the one I want repeated.
+	// not sure what that should look like...
+	// some sort of command/parameter to remember?
+	// then another param to remember?
+	// looks like these things should be more modular...
+        "Screwing, then, is <%= a(adjective()) %> <%= adjective() %>, attempt to prove he’s not <%= adjective() %>, not a woman; but he is <%= adjective1() %> and does want to be a woman.",
         "<%= capital(adjective()) %> <%= noun() %> horrifies the male, who will have nothing to do but contemplate his <%= adjective() %> self.",
         "There is yet another reason for the male to isolate himself: every man is <%= a(noun()) %>.",
         "No <%= adjective() %> revolution can be accomplished by the male."
@@ -80,7 +87,8 @@ var sentence = function(randomWords) {
             return word.charAt(0).toUpperCase() + word.slice(1);
 	};
 
-	var adjective = function() { return randomWords.adjective.pickRemove().word; };
+	var adjective = function() { var adj = randomWords.adjective.pickRemove().word; adjCache.push(adj); return adj; };
+	var adjective1 = function() { return adjCache[0]; };
 	var adverb = function() { return randomWords.adverb.pick().word; };
 	var gerund = function() { var v = verb(); return nlp.verb(v).conjugate().gerund; };
 	var noun = function() { var n = singular(randomWords.noun.pickRemove().word); nounCache.push(n); return n; };
@@ -101,6 +109,7 @@ var sentence = function(randomWords) {
 	return {
 	    a: a,
             adjective: adjective,
+	    adjective1: adjective1,
             adverb: adverb,
 	    capital: capitalize,
             gerund: gerund,
@@ -150,6 +159,12 @@ var sentence = function(randomWords) {
         return s;
     };
 
+    var clearCache = function() {
+	var nounCache = [];
+	var pluralNounCache = [];
+	var pronounCache = [];
+	var adjCache = [];
+    };
 
     var getRandomSentence = function() {
 
@@ -157,9 +172,8 @@ var sentence = function(randomWords) {
 	var count = 0;
 	do {
             count++;
-            // console.log(randomWords);
-            nounCache = [];
-            pronounCache = [];
+            console.log(randomWords);
+	    clearCache();
 
             var tmpl = templates.pick();
             // console.log(tmpl);
@@ -175,7 +189,8 @@ var sentence = function(randomWords) {
 
     return {
         getSentence: getSentence,
-        getRandomSentence: getRandomSentence
+        getRandomSentence: getRandomSentence,
+	templates: templates
     };
 
 

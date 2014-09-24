@@ -1,28 +1,27 @@
 var _ = require('underscore');
 _.mixin( require('underscore.deferred') );
 var sentence = require('../sentence.js');
+var randomWords = require('./words.js');
+var s = new sentence(randomWords);
 
-// this is based on the objects returned from Wordnik
-// which is { id: 'foo', word: 'bar' }
-// we don't use the id, so don't set it manually, here
-var randomWords = {
-    noun: [ { word: 'pocket' } ],
-    adjective: [],
-    verb: [],
-    pronoun: [],
-    propernoun: [],
-    adverb: [],
-    inter: []
-};
+// print process.argv
+// process.argv.forEach(function (val, index, array) {
+//   console.log(index + ': ' + val);
+// });
+
+// naievely assume that the third arguement is the templateNbr
+// if not present use something else;
+var templateNbr = process.argv[2] || Math.floor(Math.random() * (s.templates.length));
 
 var getSentence = function(n) {
 
     // console.log(randomWords);
 
-    var s = new sentence(randomWords);
-
     return s.getSentence(n);
 
 };
 
-console.log(getSentence(7));
+console.log(getSentence(templateNbr));
+
+
+// console.log(s.templates.length);
