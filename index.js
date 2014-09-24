@@ -22,7 +22,7 @@ var getSentence = function() {
 
     var s = new sentence(randomWords);
 
-    return s.getSentence();
+    return s.getRandomSentence();
 
 };
 
@@ -120,7 +120,7 @@ function tweet() {
     });
 }
 
-// Tweet every 60 minutes
+// Tweet regularly
 setInterval(function () {
     try {
         tweet();
@@ -128,8 +128,6 @@ setInterval(function () {
     catch (e) {
         console.log(e);
     }
-// TODO: get this into a heroku variable...
-// }, 1000 * 15 * 60);
 }, 1000 * config.minutes * config.seconds);
 
 // Tweet once on initialization

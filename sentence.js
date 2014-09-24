@@ -64,7 +64,14 @@ var sentence = function(randomWords) {
 	"SCUM will keep on <%= gerund() %>, <%= gerund() %>, <%= gerund() %>-up, and <%= gerund() %> until the money-work system no longer exists.",
 	"Sex is the <%= noun() %> of the <%= plural(noun()) %>.",
 	"The male is, by his very nature, <%= a(noun()) %>, <%= a(adjective()) %> <%= noun() %> and, therefore, not <%= adverb() %> entitled to live.",
-	"To call a man <%= a(noun()) %> is to flatter him; he's <%= a(noun()) %>, a <%= gerund() %> <%= noun() %>."
+	"To call a man <%= a(noun()) %> is to flatter him; he's <%= a(noun()) %>, a <%= gerund() %> <%= noun() %>.",
+        "Women are improvable; men are not, although their <%= noun() %> is.",
+        "His main means of attempting to prove it is screwing {<%= capital(adjective()) %> Man with <%= a(capital(adjective())) %> Dick tearing off <%= capital(adjective()) %> <%= capital(noun()) %>}.",
+        "The mother gives milk; he gives <%= noun() %>.",
+        "Screwing, then, is a desperate compulsive, attempt to prove he’s not passive, not a woman; but he is passive and does want to be a woman.",
+        "<%= capital(adjective()) %> <%= noun() %> horrifies the male, who will have nothing to do but contemplate his <%= adjective() %> self.",
+        "There is yet another reason for the male to isolate himself: every man is <%= a(noun()) %>.",
+        "No <%= adjective() %> revolution can be accomplished by the male."
     ];
 
     var wordFinders = function() {
@@ -73,7 +80,7 @@ var sentence = function(randomWords) {
             return word.charAt(0).toUpperCase() + word.slice(1);
 	};
 
-	var adjective = function() { return randomWords.adjective.pick().word; };
+	var adjective = function() { return randomWords.adjective.pickRemove().word; };
 	var adverb = function() { return randomWords.adverb.pick().word; };
 	var gerund = function() { var v = verb(); return nlp.verb(v).conjugate().gerund; };
 	var noun = function() { var n = singular(randomWords.noun.pickRemove().word); nounCache.push(n); return n; };
@@ -130,8 +137,21 @@ var sentence = function(randomWords) {
 
     };
 
+    var getSentence = function(n) {
+        var s = "";
+        if (n < 0 || n >= templates.length) {
+            s = getRandomSentence();
+        } else {
+            var tmpl = templates[n];
+            console.log("template: " + tmpl);
+            var t = _.template(tmpl);
+            s = t(wordFinders);
+        }
+        return s;
+    };
 
-    var getSentence = function() {
+
+    var getRandomSentence = function() {
 
 	var s = "";
 	var count = 0;
@@ -153,7 +173,10 @@ var sentence = function(randomWords) {
 
     };
 
-    return { getSentence: getSentence };
+    return {
+        getSentence: getSentence,
+        getRandomSentence: getRandomSentence
+    };
 
 
 };
