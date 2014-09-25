@@ -87,6 +87,25 @@ var sentence = function(randomWords) {
             return word.charAt(0).toUpperCase() + word.slice(1);
 	};
 
+	// if position supplied, return a position in the cache
+	// if position not supplied, pickRemove a word, place into cache, and return
+	// pos := Part Of Speech
+	var pull = function(pos, index) {
+	    var word;
+	    if (typeof index =='number' && cache[pos] && cache[pos][index]) {
+		word = cache[pos][index];
+	    }
+	    // default to random otherwise
+	    // ???
+	    if (!word) {
+		word = randomWords[pos].pick().word;
+		if (!cache[pos]) cache[pos] = []; // auto-init
+		cache[pos].push(word);
+	    }
+
+	    return word;
+	};
+
 	var adjective = function() { var adj = randomWords.adjective.pickRemove().word; adjCache.push(adj); return adj; };
 	var adjective1 = function() { return adjCache[0]; };
 	var adverb = function() { return randomWords.adverb.pick().word; };
