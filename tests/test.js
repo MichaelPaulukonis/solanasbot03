@@ -11,17 +11,38 @@ var s = new sentence(randomWords);
 
 // naievely assume that the third arguement is the templateNbr
 // if not present use something else;
-var templateNbr = process.argv[2] || Math.floor(Math.random() * (s.templates.length));
+// var templateNbr = process.argv[2] || Math.floor(Math.random() * (s.templates.length));
+var templateNbr = process.argv[2];
 
 var getSentence = function(n) {
-
-    // console.log(randomWords);
 
     return s.getSentence(n);
 
 };
 
-console.log(getSentence(templateNbr));
+var runSomeTests = function() {
+
+    // dump one of each template, tracking length
+    var tooLong = [];
+    for(var i = 0; i < s.templates.length; i++) {
+	var snt = getSentence(i);
+	var msg = '' + i + ': ' + snt + ' : (' + snt.length + ')';
+	if (snt.length > 140) tooLong.push(msg);
+	console.log(msg);
+    }
+
+    if (tooLong.length > 0) {
+	console.log('\n\nTOO LONG FOR TWITTER:');
+	for (i = 0; i < tooLong.length; i++) {
+	    console.log(tooLong[i]);
+	}
+    }
+
+};
 
 
-// console.log(s.templates.length);
+if (templateNbr) {
+    console.log(getSentence(templateNbr));
+} else {
+    runSomeTests();
+}
