@@ -20,6 +20,15 @@ var randomWords = {
 
 var getSentence = function() {
 
+    // TODO: if not valid sentence, get it again
+    // return the template and cache the last 10 templates
+    // do not use if in the last 10
+    // don't force a full-cycle, just don't repeat that often.
+    // AKSHUALLY since this is a "validation rule" it should go elsewhere
+    // 'twould be nice if validation rules were injected,
+    // as opposed to being hard-coded in sentence.js....
+    // since "140 chars" has to do with THIS use-case, not OTHER use-cases....
+
     var s = new sentence(randomWords);
 
     return s.getRandomSentence();
