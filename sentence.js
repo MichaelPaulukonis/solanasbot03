@@ -10,11 +10,10 @@ var sentence = function(randomWords) {
 
     var cache = {};
 
-    // TODO: function addToCache(type, word)
-
     var nounCache = [];
     var pluralNounCache = [];
     var pronounCache = [];
+    var adjCache = [];
 
     Array.prototype.pick = function() {
 	return this[Math.floor(Math.random()*this.length)];
@@ -34,14 +33,14 @@ var sentence = function(randomWords) {
 	"SCUM will destroy all useless and harmful objects -- <%= plural(noun()) %>, <%= plural(noun()) %>, <%= plural(noun()) %>  etc.",
 	"SCUM: Not Your Typical <%= capital(noun()) %>.",
 	"SCUM: What’s in your <%= noun() %>?",
-	"SCUM: the <%= noun() %> of <%= noun1() %> <%= plural(noun()) %>.",
+	"SCUM: the <%= noun() %> of <%= noun(position.FIRST) %> <%= plural(noun()) %>.",
 	"SCUM: not just for <%= plural(noun()) %>!",
-	"SCUM will kill all <%= plural(noun()) %> who are not in the <%= capital(plural(noun1())) %>’s Auxiliary of SCUM.",
+	"SCUM will kill all <%= plural(noun()) %> who are not in the <%= capital(plural(noun(position.FIRST))) %>’s Auxiliary of SCUM.",
 	"SCUM will <%= adverb() %>, <%= adverb() %>, stalk its <%= noun() %> and quietly move in for the kill.",
 	"SCUM: Not just for <%= plural(noun()) %>.",
 	"SCUM will not <%= verb() %>, <%= verb() %>, <%= verb() %> or <%= verb() %> to attempt to achieve its ends.",
 	"SCUM: Leave the <%= noun() %> to us.",
-	"SCUM: <%= capital(noun()) %> for <%= pronoun() %>. <%= capital(pronoun1()) %> for <%= noun1() %>.",
+	"SCUM: <%= capital(noun()) %> for <%= pronoun() %>. <%= capital(pronoun(position.FIRST)) %> for <%= noun(position.FIRST) %>.",
 	"SCUM consists of <%= plural(noun()) %>; SCUM is not <%= a(noun()) %>, <%= a(noun()) %>.",
 	"SCUM: Together we make <%= a(adjective()) %> <%= noun() %>.",
 	"SCUM: one <%= noun() %> at a time.",
@@ -64,11 +63,11 @@ var sentence = function(randomWords) {
 	"SCUM will keep on <%= gerund() %>, <%= gerund() %>, <%= gerund() %>-up, and <%= gerund() %> until the money-work system no longer exists.",
 	"Sex is the <%= noun() %> of the <%= plural(noun()) %>.",
 	"The male is, by his very nature, <%= a(noun()) %>, <%= a(adjective()) %> <%= noun() %> and, therefore, not <%= adverb() %> entitled to live.",
-	"To call a man <%= a(noun()) %> is to flatter him; he's <%= a(noun()) %>, a <%= gerund() %> <%= noun() %>.",
+	"To call a man <%= a(noun()) %> is to flatter him; he's <%= a(noun()) %>, <%= a(gerund()) %> <%= noun() %>.",
         "Women are improvable; men are not, although their <%= noun() %> is.",
         "His main means of attempting to prove it is screwing {<%= capital(adjective()) %> Man with <%= a(capital(adjective())) %> Dick tearing off <%= capital(adjective()) %> <%= capital(noun()) %>}.",
         "The mother gives milk; he gives <%= noun() %>.",
-        "Screwing, then, is a desperate compulsive, attempt to prove he’s not passive, not a woman; but he is passive and does want to be a woman.",
+        "Screwing, then, is <%= a(adjective()) %> <%= adjective() %> attempt to prove he’s not <%= adjective() %>, not a woman; but he is <%= adjective(position.LAST) %> and does want to be a woman.",
         "<%= capital(adjective()) %> <%= noun() %> horrifies the male, who will have nothing to do but contemplate his <%= adjective() %> self.",
         "There is yet another reason for the male to isolate himself: every man is <%= a(noun()) %>.",
         "No <%= adjective() %> revolution can be accomplished by the male."
@@ -76,27 +75,53 @@ var sentence = function(randomWords) {
 
     var wordFinders = function() {
 
+	var position = {
+	    FIRST: 0,
+	    SECOND: 1,
+	    LAST: -1
+	};
+
 	var capitalize = function(word) {
             return word.charAt(0).toUpperCase() + word.slice(1);
 	};
 
-	var adjective = function() { return randomWords.adjective.pickRemove().word; };
-	var adverb = function() { return randomWords.adverb.pick().word; };
-	var gerund = function() { var v = verb(); return nlp.verb(v).conjugate().gerund; };
-	var noun = function() { var n = singular(randomWords.noun.pickRemove().word); nounCache.push(n); return n; };
-	// make noun, etc. take an optional index paramenter, 1-indexed
-	// if present, return the cache corresponding to the index (if available)
-	// otherwise return a random noun
-	// TODO: do a remove, instead of a pick ???
-	// var n = function(i) { if (i && i < nounCache.length) { return nounCache[i]; } else {
-	var noun1 = function() { return nounCache[0]; };
+	// if position supplied, return a position in the cache
+	// if position not supplied, pickRemove a word, place into cache, and return
+	// pos := Part Of Speech
+	var pull = function(pos, index) {
+	    var word;
+	    if (typeof index !== 'undefined' && cache[pos]) {
+		if (typeof index === 'number') {
+		    if (index === position.LAST) {
+			index = cache[pos].length - 1;
+			}
+		    if (cache[pos][index]) {
+			word = cache[pos][index];
+		    }
+		}
+	    }
+	    // default to random otherwise
+	    // ???
+	    if (!word) {
+		word = randomWords[pos].pick().word;
+		if (!cache[pos]) cache[pos] = []; // auto-init
+		cache[pos].push(word);
+	    }
+
+	    return word;
+	};
+
+	var adjective = function(index) { return pull('adjective', index); };
+	var adverb = function(index) { return pull('adverb', index); };
+	var gerund = function(index) { var v = pull('verb', index); return nlp.verb(v).conjugate().gerund; };
+	var noun = function(index) { return singular(pull('noun', index)); };
+	var pronoun = function(index) { return pull('pronoun', index); };
+	var verb = function(index) { return pull('verb', index); };
+	var verbTransitive = function(index) { return pull('verb', index); };
+
+	var a = function(word) { return article(word) + ' ' + word; };
 	var plural = function(noun) { return nlp.noun(noun).pluralize(); };
 	var singular = function(noun) { return inflection.singularize(noun); };
-	var pronoun = function() { var pn = randomWords.pronoun.pick().word; pronounCache.push(pn); return pn; };
-	var pronoun1 = function() { return pronounCache[0]; };
-	var verb = function() { return randomWords.verb.pickRemove().word; };
-	var verbTransitive = function() { return randomWords.verb.pickRemove().word; };
-	var a = function(word) { return article(word) + ' ' + word; };
 
 	return {
 	    a: a,
@@ -104,14 +129,14 @@ var sentence = function(randomWords) {
             adverb: adverb,
 	    capital: capitalize,
             gerund: gerund,
-            noun1: noun1,
             noun: noun,
             plural: plural,
 	    singular: singular,
             pronoun: pronoun,
-            pronoun1: pronoun1,
             verb: verb,
-            verbTransitive: verbTransitive
+            verbTransitive: verbTransitive,
+	    pull: pull,
+	    position: position
 	};
 
     }();
@@ -150,6 +175,12 @@ var sentence = function(randomWords) {
         return s;
     };
 
+    var clearCache = function() {
+	var nounCache = [];
+	var pluralNounCache = [];
+	var pronounCache = [];
+	var adjCache = [];
+    };
 
     var getRandomSentence = function() {
 
@@ -158,11 +189,10 @@ var sentence = function(randomWords) {
 	do {
             count++;
             // console.log(randomWords);
-            nounCache = [];
-            pronounCache = [];
+	    clearCache();
 
             var tmpl = templates.pick();
-            // console.log(tmpl);
+            console.log(tmpl);
             var t = _.template(tmpl);
             s = t(wordFinders);
 
@@ -175,7 +205,11 @@ var sentence = function(randomWords) {
 
     return {
         getSentence: getSentence,
-        getRandomSentence: getRandomSentence
+        getRandomSentence: getRandomSentence,
+	templates: templates,
+	pull: wordFinders.pull,
+	position: wordFinders.position,
+	find: wordFinders
     };
 
 
