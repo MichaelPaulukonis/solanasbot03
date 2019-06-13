@@ -49,7 +49,7 @@ function generate () {
 
 function getRandomWordsPromise (pos, minCount) {
     minCount = minCount || 3000; // the lower the number, the less common
-    var url = "http://api.wordnik.com/v4/words.json/randomWords?includePartOfSpeech=" + pos + "&excludePartOfSpeech=proper-noun-plural,proper-noun-posessive,suffix,family-name,idiom,affix&minCorpusCount=" + minCount + "&hasDictionaryDef=true&limit=20&api_key=" + config.wordnik_key;
+    var url = "http://api.wordnik.com/v4/words.json/randomWords?includePartOfSpeech=" + pos + "&excludePartOfSpeech=proper-noun-plural,suffix,family-name,idiom,affix&minCorpusCount=" + minCount + "&hasDictionaryDef=true&limit=20&api_key=" + config.wordnik_key;
     var rwDeferred = _.Deferred();
     var randomWordNounPromise = rwDeferred.promise();
     request({
@@ -101,22 +101,23 @@ function getRandomWordsPromise (pos, minCount) {
 }
 
 function tweet () {
-    generate().then(function (myTweet) {
-        console.log(myTweet);
-        if (myTweet !== "") { // could not generate for some reason (not nothing)
-            if (config.tweet_on) {
-                const T = new Twit(config);
-                T.post('statuses/update', { status: myTweet }, function (err, reply) {
-                    if (err) {
-                        console.log('error:', err);
-                    }
-                    else {
-                        console.log('reply:', reply);
-                    }
-                });
+    generate()
+        .then(myTweet => {
+            console.log(myTweet);
+            if (myTweet !== "") { // could not generate for some reason (not nothing)
+                if (config.tweet_on) {
+                    const T = new Twit(config);
+                    T.post('statuses/update', { status: myTweet }, function (err, reply) {
+                        if (err) {
+                            console.log('error:', err);
+                        }
+                        else {
+                            console.log('reply:', reply);
+                        }
+                    });
+                }
             }
-        }
-    });
+        })
 }
 
 // Tweet once on initialization

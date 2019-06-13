@@ -7,6 +7,9 @@
     "name": "Michael Paulukonis",
     "email": "xraysmalevich@gmail.com"
   },
+  "scripts": {
+    "start": "node -r dotenv/env.config index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/MichaelPaulukonis/solanasbot03.git"
@@ -32,6 +35,8 @@
     "underscore.deferred": "~0.4.0",
     "wordfilter": "0.1.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "dotenv": "^8.0.0"
+  },
   "keywords": []
 }
