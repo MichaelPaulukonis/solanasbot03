@@ -2,26 +2,26 @@
   "name": "SOLANASBOT03",
   "description": "SCUM Manifesto generator.",
   "version": "0.1.0",
-  "homepage": "https://github.com/Michael Paulukonis/solanasbot03",
+  "homepage": "https://github.com/MichaelPaulukonis/solanasbot03",
   "author": {
     "name": "Michael Paulukonis",
     "email": "xraysmalevich@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Michael Paulukonis/solanasbot03.git"
+    "url": "git://github.com/MichaelPaulukonis/solanasbot03.git"
   },
   "bugs": {
-    "url": "https://github.com/Michael Paulukonis/solanasbot03/issues"
+    "url": "https://github.com/MichaelPaulukonis/solanasbot03/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/Michael Paulukonis/solanasbot03/blob/master/LICENSE-MIT"
+      "url": "https://github.com/MichaelPaulukonis/solanasbot03/blob/master/LICENSE-MIT"
     }
   ],
   "engines": {
-    "node": ">= 0.8.0"
+    "node": "8.10.0"
   },
   "dependencies": {
     "underscore": "~1.5.1",
@@ -31,10 +31,6 @@
     "wordfilter": "0.1.3",
     "nlp_compromise": "0.1.4"
   },
-  "devDependencies": {
-    "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-watch": "~0.4.0",
-    "grunt-notify": "~0.2.18"
-  },
+  "devDependencies": {},
   "keywords": []
 }

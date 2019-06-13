@@ -3,3 +3,4 @@ log*
 permissions.js
 heroku.config.bat
 *.bak
+node_modules/

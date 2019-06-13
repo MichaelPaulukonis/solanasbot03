@@ -1,9 +1,7 @@
 var _ = require('underscore');
-_.mixin( require('underscore.deferred') );
+_.mixin(require('underscore.deferred'));
 var Twit = require('twit');
 var config = require('./config.js');
-var T = new Twit(config);
-var wordnikKey = config.wordnik_key;
 var request = require('request');
 var sentence = require('./sentence.js');
 
@@ -18,7 +16,7 @@ var randomWords = {
 };
 
 
-var getSentence = function() {
+var getSentence = function () {
 
     var s = new sentence(randomWords);
 
@@ -26,7 +24,7 @@ var getSentence = function() {
 
 };
 
-function generate() {
+function generate () {
 
     var dfd = new _.Deferred();
 
@@ -42,16 +40,16 @@ function generate() {
         randomWordAdvPromise,
         randomWordVerbPromise,
         randomWordPronounPromise
-    ).done(function() {
+    ).done(function () {
         dfd.resolve(getSentence());
     });
 
     return dfd.promise();
 }
 
-function getRandomWordsPromise(pos,minCount) {
+function getRandomWordsPromise (pos, minCount) {
     minCount = minCount || 3000; // the lower the number, the less common
-    var url = "http://api.wordnik.com/v4/words.json/randomWords?includePartOfSpeech="+pos+"&excludePartOfSpeech=proper-noun-plural,proper-noun-posessive,suffix,family-name,idiom,affix&minCorpusCount="+minCount+"&hasDictionaryDef=true&limit=20&api_key=" + config.wordnik_key;
+    var url = "http://api.wordnik.com/v4/words.json/randomWords?includePartOfSpeech=" + pos + "&excludePartOfSpeech=proper-noun-plural,proper-noun-posessive,suffix,family-name,idiom,affix&minCorpusCount=" + minCount + "&hasDictionaryDef=true&limit=20&api_key=" + config.wordnik_key;
     var rwDeferred = _.Deferred();
     var randomWordNounPromise = rwDeferred.promise();
     request({
@@ -71,8 +69,8 @@ function getRandomWordsPromise(pos,minCount) {
             rwDeferred.reject(error);
         }
     });
-    (function(pos) {
-        randomWordNounPromise.done(function(words) {
+    (function (pos) {
+        randomWordNounPromise.done(function (words) {
             if (pos === "noun") {
                 randomWords.noun = words;
             }
@@ -102,12 +100,13 @@ function getRandomWordsPromise(pos,minCount) {
     return randomWordNounPromise;
 }
 
-function tweet() {
-    generate().then(function(myTweet) {
+function tweet () {
+    generate().then(function (myTweet) {
         console.log(myTweet);
         if (myTweet !== "") { // could not generate for some reason (not nothing)
             if (config.tweet_on) {
-                T.post('statuses/update', { status: myTweet }, function(err, reply) {
+                const T = new Twit(config);
+                T.post('statuses/update', { status: myTweet }, function (err, reply) {
                     if (err) {
                         console.log('error:', err);
                     }
@@ -119,16 +118,6 @@ function tweet() {
         }
     });
 }
-
-// Tweet regularly
-setInterval(function () {
-    try {
-        tweet();
-    }
-    catch (e) {
-        console.log(e);
-    }
-}, 1000 * config.minutes * config.seconds);
 
 // Tweet once on initialization
 tweet();
