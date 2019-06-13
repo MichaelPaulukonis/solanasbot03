@@ -24,12 +24,13 @@
     "node": "8.10.0"
   },
   "dependencies": {
+    "inflection": "~1.2.6",
+    "nlp_compromise": "0.1.4",
+    "request": "^2.88.0",
+    "twit": "~1.1.9",
     "underscore": "~1.5.1",
     "underscore.deferred": "~0.4.0",
-    "inflection": "~1.2.6",
-    "twit": "~1.1.9",
-    "wordfilter": "0.1.3",
-    "nlp_compromise": "0.1.4"
+    "wordfilter": "0.1.3"
   },
   "devDependencies": {},
   "keywords": []
